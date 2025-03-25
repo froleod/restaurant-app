@@ -1,0 +1,35 @@
+.home-page {
+    padding: 20px;
+    text-align: center;
+}
+
+.home-page h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+}
+
+.home-page p {
+    font-size: 1.5rem;
+    color: #555;
+}
+
+.App-logo {
+    height: 40vmin;
+    pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+    .App-logo {
+        animation: App-logo-spin infinite 20s linear;
+    }
+}
+
+@keyframes App-logo-spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+

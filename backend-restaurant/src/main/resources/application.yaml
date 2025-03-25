@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: backend-restaurant
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/Restaurant
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+
+  mail:
+    host: smtp.yandex.ru
+    port: 465
+    username: ${SPRING_MAIL_USERNAME}
+    password: ${SPRING_MAIL_PASSWORD}
+    protocol: smtp
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enable: true
+
+
+
+token:
+  signing:
+    key: ${token}

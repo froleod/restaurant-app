@@ -1,0 +1,30 @@
+/* global.css */
+@font-face {
+    font-family: 'LEPKA.otf';
+    src: url('../fonts/LEPKA.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    --main-font: 'LEPKA.otf', sans-serif; /* Переменная для основного шрифта */
+}
+
+body {
+    font-family: var(--main-font), serif; /* Используем переменную */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 2.5rem;
+    font-weight: normal;
+    font-family: var(--main-font), serif; /* Используем переменную */
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
