@@ -26,7 +26,7 @@ public class OrderController {
 
     @PostMapping
     public ResponseEntity<Order> createOrder(@RequestBody CreateOrderDto createOrderDto) {
-        Order order = orderService.createOrder(createOrderDto.username(), createOrderDto.items());
+        Order order = orderService.createOrder(createOrderDto.username(), createOrderDto.items(), createOrderDto.deliveryAddress());
         return ResponseEntity.ok(order);
     }
 

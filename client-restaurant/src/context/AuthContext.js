@@ -28,25 +28,37 @@ export const AuthProvider = ({children}) => {
         }
     }, []);
 
-    const createOrder = async () => {
+    const createOrder = async (deliveryAddress) => {
         try {
-            const token = localStorage.getItem('token'); // Получаем токен из localStorage
+            const token = localStorage.getItem('token');
             if (!token) {
                 throw new Error('Пользователь не авторизован');
             }
+
             const orderData = {
                 username: user.username,
-                items: cart.map((item) => ({
+                items: cart.map(item => ({
                     productId: item.id,
                     quantity: item.quantity,
                 })),
+                deliveryAddress: {
+                    street: deliveryAddress.street,
+                    house: deliveryAddress.house,
+                    apartment: deliveryAddress.apartment,
+                    floor: deliveryAddress.floor,
+                    intercom: deliveryAddress.intercom,
+                    comment: deliveryAddress.comment
+                }
             };
+
             console.log("Order data: ", orderData);
+
             const response = await axios.post('/api/orders', orderData, {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Передаём токен в заголовке
+                    Authorization: `Bearer ${token}`,
                 },
             });
+
             console.log("Заказ создан:", response.data);
             setCart([]);
             localStorage.removeItem('cart');

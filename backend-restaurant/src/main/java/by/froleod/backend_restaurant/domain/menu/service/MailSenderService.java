@@ -1,5 +1,6 @@
 package by.froleod.backend_restaurant.domain.menu.service;
 
+import by.froleod.backend_restaurant.domain.menu.delivery.Delivery;
 import by.froleod.backend_restaurant.domain.menu.entity.Order;
 import by.froleod.backend_restaurant.domain.menu.entity.OrderItem;
 import lombok.RequiredArgsConstructor;
@@ -37,12 +38,23 @@ public class MailSenderService {
         mailSender.send(mailMessage);
     }
 
-    public static String buildOrderEmailText(Order order) {
+    public static String buildOrderEmailText(Order order, Delivery delivery) {
+        String deliveryInfo = String.format(
+                "Адрес доставки: %s, д.%s%s\nЭтаж: %s\nДомофон: %s\nКомментарий: %s",
+                delivery.getStreet(),
+                delivery.getHouse(),
+                delivery.getApartment() != null ? ", кв." + delivery.getApartment() : "",
+                delivery.getFloor() != null ? delivery.getFloor() : "не указан",
+                delivery.getIntercom() != null ? delivery.getIntercom() : "нет",
+                delivery.getComment() != null ? delivery.getComment() : "нет"
+        );
+
         StringBuilder sb = new StringBuilder();
         sb.append("Спасибо за заказ!\n\n");
         sb.append("Детали заказа:\n");
         sb.append("Номер заказа: ").append(order.getId()).append("\n");
         sb.append("Дата заказа: ").append(order.getOrderDate()).append("\n");
+        sb.append(deliveryInfo).append("\n");
         sb.append("Статус: ").append(order.getStatus()).append("\n\n");
         sb.append("Товары:\n");
         for (OrderItem item : order.getItems()) {

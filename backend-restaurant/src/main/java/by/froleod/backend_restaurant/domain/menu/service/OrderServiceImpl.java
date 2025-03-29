@@ -1,15 +1,19 @@
 package by.froleod.backend_restaurant.domain.menu.service;
 
+import by.froleod.backend_restaurant.domain.menu.delivery.Delivery;
 import by.froleod.backend_restaurant.domain.menu.dto.OrderItemDto;
 import by.froleod.backend_restaurant.domain.menu.entity.Order;
 import by.froleod.backend_restaurant.domain.menu.entity.OrderItem;
 import by.froleod.backend_restaurant.domain.menu.entity.Product;
+import by.froleod.backend_restaurant.domain.menu.repository.DeliveryRepository;
 import by.froleod.backend_restaurant.domain.menu.repository.OrderRepository;
 import by.froleod.backend_restaurant.domain.menu.repository.ProductRepository;
 import by.froleod.backend_restaurant.domain.user.entity.User;
 import by.froleod.backend_restaurant.domain.user.repository.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,10 +28,11 @@ public class OrderServiceImpl implements OrderService {
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
     private final MailSenderService mailSenderService;
+    private final DeliveryRepository deliveryRepository;
 
     @Transactional
     @Override
-    public Order createOrder(String username, List<OrderItemDto> items) {
+    public Order createOrder(String username, List<OrderItemDto> items, Delivery deliveryAddress) {
         User user = userRepository.findByUsername(username).orElseThrow();
         Order order = new Order();
         order.setUser(user);
@@ -52,9 +57,24 @@ public class OrderServiceImpl implements OrderService {
         order.setItems(orderItems);
         order.setTotalPrice(totalPrice);
 
+        Delivery delivery = new Delivery();
+        delivery.setStreet(deliveryAddress.getStreet());
+        delivery.setHouse(deliveryAddress.getHouse());
+        delivery.setApartment(deliveryAddress.getApartment());
+        delivery.setFloor(deliveryAddress.getFloor());
+        delivery.setIntercom(deliveryAddress.getIntercom());
+        delivery.setComment(deliveryAddress.getComment());
+        delivery.setStatus("pending");
+
+        deliveryRepository.save(delivery);
+
         var savedOrder = orderRepository.save(order);
         String emailSubject = "Твой заказ в ресторане Уют";
-        //mailSenderService.send(user.getEmail(), emailSubject, MailSenderService.buildOrderEmailText(savedOrder));
+        mailSenderService.send(
+                user.getEmail(),
+                emailSubject,
+                MailSenderService.buildOrderEmailText(savedOrder, delivery)
+        );
         return savedOrder;
     }
 
