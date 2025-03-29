@@ -1,14 +1,14 @@
 /* global.css */
 @font-face {
-    font-family: 'LEPKA.otf';
-    src: url('../fonts/LEPKA.otf') format('opentype');
+    font-family: 'SF-Pro-Display-Medium.otf';
+    src: url('../fonts/SF-Pro-Display-Medium.otf') format('opentype');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
 }
 
 :root {
-    --main-font: 'LEPKA.otf', sans-serif; /* Переменная для основного шрифта */
+    --main-font: 'SF-Pro-Display-Medium.otf', sans-serif; /* Переменная для основного шрифта */
 }
 
 body {
