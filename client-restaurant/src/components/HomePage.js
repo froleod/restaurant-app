@@ -4,7 +4,7 @@ import logo from './uyut.png'
 const HomePage = () => {
     return (
         <div className="home-page">
-            <h1>Добро пожаловать в "УЮТ"!</h1>
+            <h1>Добро пожаловать в «УЮТ»!</h1>
             <p>Мы рады видеть вас здесь! </p>
             <p>Выберите раздел в меню выше.</p>
             <br></br>
